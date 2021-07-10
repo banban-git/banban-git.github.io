@@ -8,7 +8,6 @@
   <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css" />
-  <!-- Don't use this in production: -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 
@@ -20,7 +19,7 @@
       const [verified, setVerified] = React.useState(false);
       React.useEffect(() => {
         grecaptcha.render('html_element', {
-          sitekey: '6Le1Q-4aAAAAAPxiA-8un2vTzU5PoCw9-wWwD7Wr',
+          sitekey: '6LeTz4gbAAAAAN0BkhG4D5PgIIcOs7VdDknCE1ne',
           callback: (response) => {
             se.play();
             setVerified(true);
@@ -37,7 +36,7 @@
                     おめでとうございます。あなたは人間です。
                   </p>
                   <p className="subtitle">
-                    ご安心ください。あなたはテストを突破することにより人間だと証明されました。
+                    あなたはテストを突破することにより人間だと証明されました。By バンバンより
                   </p>
                 </div>
               </div>
@@ -47,7 +46,7 @@
               <div className="hero-body">
                 <div className="container has-text-centered">
                   <p className="title">
-                    自分はロボットではないかと不安な方へ
+                    自分はロボットではないかと思う方へ
                   </p>
                   <p className="subtitle">
                     下のチェックボックスをクリックして確かめてみましょう。
