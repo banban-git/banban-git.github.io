@@ -9,8 +9,8 @@
        <section class="hero is-fullheight">
          <div class="hero-body">
            <div class="container has-text-centered">
-             <p class="title">ランダムで猫の画像を取得します<br><br>
-               <a class="button is-danger is-outlined is-large" id="btnsend">画像取得</a>
+             <p class="title">ランダムで猫の画像を取得します<br>
+               <a id="btnsend" class="button is-danger is-outlined is-large " style="margin-top:10px">画像取得</a>
                <div id="result"></div>
              </p>
            </div>
@@ -21,6 +21,8 @@
     $(function() {
       $('#btnsend').on('click', function(){
         $('#result').text('');
+        $("#btnsend").addClass("is-loading");
+        
         // Ajax通信を開始
         $.ajax({
           url: 'https://aws.random.cat/meow',
@@ -36,6 +38,8 @@
           // 指定した要素にimg要素を挿入
           var content_area = document.getElementById("result");
           content_area.appendChild(img_element);
+          // Loading解除
+          $("#btnsend").removeClass("is-loading");
         })
         .fail(function() {
             // 通信失敗時の処理を記述
