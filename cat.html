@@ -1,0 +1,39 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <input type="button" id="btnsend" name="submit" value="猫の画像を取得">
+    <br>
+    <div id="result"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+    $(function() {
+      $('#btnsend').on('click', function(){
+        $('#result').text('');
+        // Ajax通信を開始
+        $.ajax({
+          url: 'https://aws.random.cat/meow',
+          type: 'GET',
+          dataType: 'json'
+        })
+        .done(function(data) {
+            var img_element = document.createElement('img');
+            // 画像パス
+            img_element.src = data.file; 
+            img_element.alt = '犬の画像'; // 代替テキスト
+            img_element.width = 500; // 横サイズ（px）
+            img_element.height =500; // 縦サイズ（px）
+
+            // 指定した要素にimg要素を挿入
+            var content_area = document.getElementById("result");
+            content_area.appendChild(img_element);
+        })
+        .fail(function() {
+            // 通信失敗時の処理を記述
+            alert("通信エラー")
+        });
+      })
+    });
+    </script>
+  </body>
+</html>
