@@ -6,12 +6,16 @@
     <title>猫の画像取得</title>
   </head>
   <body>
-    猫の画像を取得します。
-    ボタンを押す度に違う画像が取得できます。<BR>
-    <input type="button" id="btnsend" name="submit" value="取得">
-    <br>
-    <div id="result"></div>
-    
+       <section class="hero is-fullheight">
+         <div class="hero-body">
+           <div class="container has-text-centered">
+             <p class="title">ランダムで猫の画像を取得します。今日もお疲れ様 by バンバン^^<br>
+               <input type="button" id="btnsend" name="submit" value="取得">
+               <div id="result"></div>
+             </p>
+           </div>
+         </div>
+       </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
     $(function() {
@@ -29,10 +33,6 @@
           img_element.src = data.file;
           // 代替テキスト 
           img_element.alt = '猫画像'; 
-          // 横サイズ（px）
-         // img_element.width = 500;
-          // 縦サイズ（px）
-         // img_element.height= 500;
           // 指定した要素にimg要素を挿入
           var content_area = document.getElementById("result");
           content_area.appendChild(img_element);
