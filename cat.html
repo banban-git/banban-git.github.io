@@ -1,5 +1,8 @@
 <html>
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>猫の画像取得</title>
   </head>
   <body>
     <input type="button" id="btnsend" name="submit" value="猫の画像を取得">
@@ -17,16 +20,18 @@
           dataType: 'json'
         })
         .done(function(data) {
-            var img_element = document.createElement('img');
-            // 画像パス
-            img_element.src = data.file; 
-            img_element.alt = '犬の画像'; // 代替テキスト
-            img_element.width = 500; // 横サイズ（px）
-            img_element.height =500; // 縦サイズ（px）
-
-            // 指定した要素にimg要素を挿入
-            var content_area = document.getElementById("result");
-            content_area.appendChild(img_element);
+          var img_element = document.createElement('img');
+          // 画像パス
+          img_element.src = data.file;
+          // 代替テキスト 
+          img_element.alt = '猫画像'; 
+          // 横サイズ（px）
+          img_element.width = 500;
+          // 縦サイズ（px）
+          img_element.height= 500;
+          // 指定した要素にimg要素を挿入
+          var content_area = document.getElementById("result");
+          content_area.appendChild(img_element);
         })
         .fail(function() {
             // 通信失敗時の処理を記述
