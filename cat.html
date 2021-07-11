@@ -2,10 +2,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>”L‚Ì‰æ‘œæ“¾</title>
+    <title>çŒ«ã®ç”»åƒå–å¾—</title>
   </head>
   <body>
-    <input type="button" id="btnsend" name="submit" value="”L‚Ì‰æ‘œ‚ğæ“¾">
+    <input type="button" id="btnsend" name="submit" value="çŒ«ã®ç”»åƒã‚’å–å¾—">
     <br>
     <div id="result"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -13,7 +13,7 @@
     $(function() {
       $('#btnsend').on('click', function(){
         $('#result').text('');
-        // Ajax’ÊM‚ğŠJn
+        // Ajaxé€šä¿¡ã‚’é–‹å§‹
         $.ajax({
           url: 'https://aws.random.cat/meow',
           type: 'GET',
@@ -21,21 +21,21 @@
         })
         .done(function(data) {
           var img_element = document.createElement('img');
-          // ‰æ‘œƒpƒX
+          // ç”»åƒãƒ‘ã‚¹
           img_element.src = data.file;
-          // ‘ã‘ÖƒeƒLƒXƒg 
-          img_element.alt = '”L‰æ‘œ'; 
-          // ‰¡ƒTƒCƒYipxj
+          // ä»£æ›¿ãƒ†ã‚­ã‚¹ãƒˆ 
+          img_element.alt = 'çŒ«ç”»åƒ'; 
+          // æ¨ªã‚µã‚¤ã‚ºï¼ˆpxï¼‰
           img_element.width = 500;
-          // cƒTƒCƒYipxj
+          // ç¸¦ã‚µã‚¤ã‚ºï¼ˆpxï¼‰
           img_element.height= 500;
-          // w’è‚µ‚½—v‘f‚Éimg—v‘f‚ğ‘}“ü
+          // æŒ‡å®šã—ãŸè¦ç´ ã«imgè¦ç´ ã‚’æŒ¿å…¥
           var content_area = document.getElementById("result");
           content_area.appendChild(img_element);
         })
         .fail(function() {
-            // ’ÊM¸”s‚Ìˆ—‚ğ‹Lq
-            alert("’ÊMƒGƒ‰[")
+            // é€šä¿¡å¤±æ•—æ™‚ã®å‡¦ç†ã‚’è¨˜è¿°
+            alert("é€šä¿¡ã‚¨ãƒ©ãƒ¼")
         });
       })
     });
