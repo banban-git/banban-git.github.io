@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css" />
+    <title>音楽視聴</title>
+  </head>
+  <body>
+    <section class="hero is-fullheight">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <p class="title">アーティスト・曲名を入力してください<br>
+            <input type="text" id="term" class="button is-large " style="margin-top:10px"></input>
+            <a id="btnsend" class="button is-danger is-outlined is-large " style="margin-top:10px;margin-bottom:10px">楽曲取得</a><br>
+            <table  class="is-large " border="1" id="displayArea">
+              <tr>
+                <td>No</td>
+                <td>アーティスト</td>
+                <td>曲名</td>
+                <td>視聴</td>
+              </tr>
+            </table>
+            
+          </p>
+        </div>
+      </div>
+    </section>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+    $(function() {
+      
+      $('#btnsend').on('click', function(){
+        // ヘッダ以外の全行を削除
+        $( '#displayArea' ).find("tr:gt(0)").remove();
+        
+        $("#btnsend").addClass("is-loading");
+        // 検索条件のベースとなるオブジェクト
+        var params = {
+          lang: 'ja_jp',
+          entry: 'music',
+          media: 'music',
+          country: 'JP',
+        };
+
+        // 検索ワード（複数の場合は、「+」で結合しておくこと）
+        params.term = document.getElementById("term").value;
+
+        // 検索上限を指定する
+        params.limit = "30";
+
+        // iTunes APIをコールする
+        $.ajax({
+          url: 'https://itunes.apple.com/search',
+          method: 'GET',
+          data: params,
+          // dataTypeをjsonpにする必要があります
+          dataType: 'jsonp',
+          // 処理が成功したら、jsonが返却されます
+          success: function(json) {
+            showData(json);
+            // Loading解除
+            $("#btnsend").removeClass("is-loading");
+          },
+          error: function() {
+            console.log('itunes api search error. ', arguments);
+          },
+        });
+      })
+      
+      var showData = function(json) {
+        for (var i = 0, len = json.results.length; i < len; i++) {
+           var result = json.results[i];
+           var html = '<tr><td>' + (i + 1) + '</td>';
+           html += '<td>' + result.artistName + '</td>';
+           html += '<td>' + result.trackName + '</td>';
+           html += '<td><audio src="' + result.previewUrl + '" controls /></td></tr>';
+           $('#displayArea').append(html);
+        }
+      }
+    });
+    </script>
+  </body>
+</html>
