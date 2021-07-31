@@ -37,7 +37,7 @@
         $( '#displayArea' ).find("tr:gt(1)").remove();
         
         $("#btnsend").addClass("is-loading");
-        // 検索条件のベースとなるオブジェクト
+        // 検索条件
         var params = {
           lang: 'ja_jp',
           entry: 'music',
@@ -60,14 +60,12 @@
         }
         
 
-        // iTunes APIをコールする
+        // iTunes APIをコール
         $.ajax({
           url: 'https://itunes.apple.com/search',
           method: 'GET',
           data: params,
-          // dataTypeをjsonpにする必要があります
           dataType: 'jsonp',
-          // 処理が成功したら、jsonが返却されます
           success: function(json) {
             showData(json);
             // Loading解除
