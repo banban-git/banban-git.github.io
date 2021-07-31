@@ -14,9 +14,11 @@
             <a id="btnsend" class="button is-danger is-outlined is-large " style="margin-top:10px;margin-bottom:10px">楽曲取得</a><br>
             <table  class="is-large " border="1" id="displayArea">
               <tr>
-                <td>No</td>
-                <td>アーティスト</td>
+                <td rowspan = "2">No</td>
+                <td rowspan = "2">アーティスト</td>
                 <td>曲名</td>
+              </tr>
+              <tr>
                 <td>視聴</td>
               </tr>
             </table>
@@ -32,7 +34,7 @@
       
       $('#btnsend').on('click', function(){
         // ヘッダ以外の全行を削除
-        $( '#displayArea' ).find("tr:gt(0)").remove();
+        $( '#displayArea' ).find("tr:gt(1)").remove();
         
         $("#btnsend").addClass("is-loading");
         // 検索条件のベースとなるオブジェクト
@@ -71,9 +73,11 @@
       var showData = function(json) {
         for (var i = 0, len = json.results.length; i < len; i++) {
            var result = json.results[i];
-           var html = '<tr><td>' + (i + 1) + '</td>';
-           html += '<td>' + result.artistName + '</td>';
+           var html = '<tr><td rowspan = 2>' + (i + 1) + '</td>';
+           html += '<td rowspan = 2>' + result.artistName + '</td>';
            html += '<td>' + result.trackName + '</td>';
+           html += '</tr>';
+           html += '<tr>';
            html += '<td><audio src="' + result.previewUrl + '" controls /></td></tr>';
            $('#displayArea').append(html);
         }
