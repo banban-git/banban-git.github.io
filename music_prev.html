@@ -15,8 +15,7 @@
             <table  class="table is-bordered is-fullwidth is-hoverable" border="1" id="displayArea">
               <tr>
                 <th rowspan = "2">No</td>
-                <th rowspan = "2">アーティスト</td>
-                <th>曲名</td>
+                <th>曲名 / アーティスト</td>
               </tr>
               <tr>
                 <th>視聴</td>
@@ -81,8 +80,7 @@
         for (var i = 0, len = json.results.length; i < len; i++) {
            var result = json.results[i];
            var html = '<tr><td rowspan = 2>' + (i + 1) + '</td>';
-           html += '<td rowspan = 2>' + result.artistName + '</td>';
-           html += '<td>' + result.trackName + '</td>';
+           html += '<td>' + result.trackName + ' / ' + result.artistName + '</td>';
            html += '</tr>';
            html += '<tr>';
            html += '<td><audio src="' + result.previewUrl + '" controls /></td></tr>';
