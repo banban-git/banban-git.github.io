@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css" />
+    <title>退屈を紛らわす手段を提案</title>
+  </head>
+  <body>
+    <section class="hero is-fullheight">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <p class="title">退屈を紛らわす手段を提案<br>
+            <a id="btnsend" class="button is-success is-outlined is-large " style="margin-top:10px">取得</a>
+            <div id="result" />
+          </p>
+        </div>
+      </div>
+    </section>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+    $(function() {
+      $('#btnsend').on('click', function(){
+        $('#result').text('');
+        $("#btnsend").addClass("is-loading");
+        
+        var adviceText = "";
+        
+        // Ajax通信を開始
+        $.ajax({
+          url: 'https://www.boredapi.com/api/activity/',
+          type: 'GET',
+          async : false,  
+          dataType: 'json'
+        })
+        .done(function(data) {
+          adviceText = data.activity;
+        })
+        .fail(function() {
+            // 通信失敗時の処理を記述
+            alert("通信エラー")
+        });
+        
+        // Ajax通信を開始
+        $.ajax({
+          url: 'https://script.google.com/macros/s/AKfycbwI4aldikR7urjGKIKZPy_3Hmfite3fTUxlXRLv0Ix6pL4E9zj8h-BEhA5ldjNE6BMC/exec?text="' + adviceText + '"&source=en&target=ja',
+          type: 'GET',
+          dataType: 'json'
+        })
+        .done(function(data) {
+          var adviceTextJa = data.text
+          var span_element = document.createElement('span');
+          span_element.innerHTML = adviceText + "<br>" + adviceTextJa;
+          
+          var content_area = document.getElementById("result");
+          content_area.appendChild(span_element);
+          // Loading解除
+          $("#btnsend").removeClass("is-loading");
+        })
+        .fail(function() {
+            // 通信失敗時の処理を記述
+            alert("通信エラー")
+        });
+      })
+    });
+    </script>
+  </body>
+</html>
