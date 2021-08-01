@@ -8,3 +8,5 @@
 |  3  |  検索したアーティストの曲を視聴する  |  https://banban-git.github.io/music_prev.html  |  <img src="img/music.png">  |
 |  4  |  アドバイスを提案する  |  https://banban-git.github.io/advice.html  |  <img src="img/advice.png">  |
 |  5  |  退屈を紛らわす手段を提案する  |  https://banban-git.github.io/taikutsu.html  |  <img src="img/taikutsu.png">  |
+|  6  |  話した事を議事録としてページに記録する。<br> ※Google chrome（PC）のみ動作可 |  https://banban-git.github.io/web_speech.html  |  <img src="img/speech.png">  |
+
