@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css" />
+    <title>WebSpeech</title>
+  </head>
+  <body>
+    <section class="hero is-fullheight">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+         <img border="0" src="./img/webspeech.png"  alt="イラスト1"><br>
+         <button class="button is-success is-outlined is-large" id="start-btn">検知開始</button>
+         <button class="button is-success is-outlined is-large" id="stop-btn">検知停止</button>
+         <div class="is-fullwidth" id="result-div"></div>
+        </div>
+      </div>
+    </section>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+      const startBtn = document.querySelector('#start-btn');
+      const stopBtn = document.querySelector('#stop-btn');
+      const resultDiv = document.querySelector('#result-div');
+
+      SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
+      let recognition = new SpeechRecognition();
+
+      recognition.lang = 'ja-JP';
+      recognition.interimResults = true;
+      recognition.continuous = true;
+
+      // 確定した(黒の)認識結果
+      let finalTranscript = ''; 
+
+      recognition.onresult = (event) => {
+        // 暫定(灰色)の認識結果
+        let interimTranscript = ''; 
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          let transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript;
+          } else {
+            interimTranscript = transcript;
+          }
+        }
+        resultDiv.innerHTML = '<span class="is-size-4">'  + finalTranscript + 
+                              '<i style="color:#ddd;">' + interimTranscript + '</i><span>';
+      }
+
+      startBtn.onclick = () => {
+        recognition.start();
+      }
+      stopBtn.onclick = () => {
+        recognition.stop();
+      }
+    </script>
+  </body>
+</html>
