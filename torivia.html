@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css" />
+    <title>トリビアの泉</title>
+  </head>
+  <body >
+    <form>
+     <section class="hero is-fullheight">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <label for="hee">
+            <img src="img/hee.png" width="300" height="300" alt="へぇ" />
+          </label>
+          <div class="audio" style="display:none">
+            <audio src="audio/hee.mp3" id="heeAudio" controls="controls" />
+          </div>
+          <div>
+            <span class="is-size-1" id="heeDisp">0 へぇ</span>
+            <input type="hidden" id="heeCount" name="heeCount" value="0">
+          </div>
+          <a id="btnsend" class="button is-danger is-outlined is-midium " style="margin-top:10px">次のトリビア</a>
+        </div>
+      </div>
+    </section>
+    </form>
+  <!-- jQueryの読み込み -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script>
+  $(function() {
+    // 音声ファイルを読み込み
+    var audio = $("#heeAudio")[0];
+
+    // ////////////////////////////////////
+    // へぇボタンクリックごとの処理
+    // ////////////////////////////////////
+    $("label").click(function () {
+      // カウントアップ
+      countUp();
+      // 音声の再生
+      audio.load();
+      audio.play();
+    });
+    
+    function countUp() {
+      // 押す度に range の value を 1ずつ増加させる
+      num = parseInt($("#heeCount").val());
+      sum = num + 1 ;      
+      document.getElementById('heeDisp').innerHTML = sum + " へぇ";
+      $("#heeCount").val(sum);
+    }
+    // ////////////////////////////////////
+    // 次のトリビアボタン押下時
+    // ////////////////////////////////////
+    $('#btnsend').on('click', function(){
+      location.reload();
+    });
+  });
+  </script>
+  </body>
+</html>
