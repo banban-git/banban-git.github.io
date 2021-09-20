@@ -9,6 +9,9 @@
      <section class="hero is-fullheight">
       <div class="hero-body">
         <div class="container has-text-centered">
+          
+          <div class="is-size-3" id="result">
+          </div>
           <label for="hee">
             <img src="img/hee.png" width="300" height="300" alt="へぇ" />
           </label>
@@ -30,7 +33,9 @@
   $(function() {
     // 音声ファイルを読み込み
     var audio = $("#heeAudio")[0];
-
+    
+    getTorivia();
+    
     // ////////////////////////////////////
     // へぇボタンクリックごとの処理
     // ////////////////////////////////////
@@ -55,6 +60,24 @@
     $('#btnsend').on('click', function(){
       location.reload();
     });
+    
+    
+    function getTorivia() {
+      // Ajax通信を開始
+      $.ajax({
+        url: 'https://script.google.com/macros/s/AKfycbxCGOFyAbjso3vrwVcQyU9j5cIW2e2QQB9mCE-7e-MtuT2I9DY7015zOEq7S77sqvEU/exec',
+        type: 'GET',
+        async : false,  
+        dataType: 'json'
+      })
+      .done(function(data) {
+        document.getElementById('result').innerHTML = data.text
+      })
+      .fail(function() {
+          // 通信失敗時の処理を記述
+          alert("通信エラー")
+      });
+    }
   });
   </script>
   </body>
