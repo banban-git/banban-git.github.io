@@ -6,25 +6,31 @@
     <title>テスト</title>
   </head>
   <body >
-   <video id="player" autoplay muted>
+   <video id="player">
      <source src="./quiz/opening.mp4" type="video/mp4">
    </video>
+   <button id="btnsend" class="button is-danger is-outlined is-midium " style="margin-top:10px">スタート</button>
    
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
    <script>
    $(function() {
-      var player = $('#player').get(0);	//videoタグの要素を取得
-      //videoタグをDOM的に削除
-      player.play();
-      
-      // true：無音で再生 / false：音ありで再生
-		video.muted = false;
-
-       //動画が終了したことを検出して発火する処理
-       player.addEventListener('ended',function() {
+      $('#btnsend').on('click', function(){
+        var player = $('#player').get(0);	//videoタグの要素を取得
+        //videoタグをDOM的に削除
+        player.play();
+        player.currentTime = 75;
+        //動画が終了したことを検出して発火する処理
+        player.addEventListener('ended',function() {
          //videoタグをDOM的に削除
          $('#player').remove();	
+         window.location.href = './quiz_main.html';
        });
+      });
+      
+      $('#player').on('click', function(){
+        window.location.href = './quiz_main.html';
+      });
+      
     });
    </script>
   <style>
@@ -34,7 +40,6 @@
        width: 100%; 
        height: 100%; 
        background: #FFF; 
-       z-index: 9999999999;
     }
 </style>
   </body>
