@@ -18,7 +18,7 @@
         var player = $('#player').get(0);	//videoタグの要素を取得
         //videoタグをDOM的に削除
         player.play();
-        player.currentTime = 75;
+        player.currentTime = 0;
         //動画が終了したことを検出して発火する処理
         player.addEventListener('ended',function() {
          //videoタグをDOM的に削除
