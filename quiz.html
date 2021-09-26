@@ -6,6 +6,36 @@
     <title>テスト</title>
   </head>
   <body >
-   hello world
+   <video id="player" autoplay muted>
+     <source src="./quiz/opening.mp4" type="video/mp4">
+   </video>
+   
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script>
+   $(function() {
+      var player = $('#player').get(0);	//videoタグの要素を取得
+      //videoタグをDOM的に削除
+      player.play();
+      
+      // true：無音で再生 / false：音ありで再生
+		video.muted = false;
+
+       //動画が終了したことを検出して発火する処理
+       player.addEventListener('ended',function() {
+         //videoタグをDOM的に削除
+         $('#player').remove();	
+       });
+    });
+   </script>
+  <style>
+     #player {
+       position: absolute; 
+       top:0; 
+       width: 100%; 
+       height: 100%; 
+       background: #FFF; 
+       z-index: 9999999999;
+    }
+</style>
   </body>
 </html>
