@@ -26,16 +26,17 @@
     <section id="questionArea" style="display:none" class="hero is-fullheight">
       <div class="hero-body">
         <div class="container has-text-centered">
-        <hgroup>  
-            <b>雑学　４択</b>
-        </hgroup>
+         
+        <b>雑学　４択</b>
         
         <section class="section-sub" style="border: 2px solid #000000">
           <!--<div class="is-size-5" id="result"> -->
           <p class="is-size-5 typ" id="result"></p>
 
         </section>
-        <BR><BR>
+        <BR>
+
+        <span id="countDownArea">残り時間</span>
 
         <section class="section-sub">
             <form name="form1">
@@ -58,9 +59,17 @@
       </div>
     </section>
    
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-   <script>
-   $(function() {
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script>
+    var count = 16;　//カウントダウンの数字を格納する変数
+    var min = 0;　//残り時間「分」を格納する変数
+    var sec = 0;　//残り時間「秒」を格納する変数
+    var stp = null; //setInerval・clearInervalを制御する変数
+    var i = 0;　//ボタンの2回クリック等禁止イベントを制御する変数
+    let countDisplay = 0;
+ 
+    $(function() {
+
       // 音声ファイルを読み込み
       var audio = $("#qmaAudio")[0];
       var seikaiAudio = $("#seikaiAudio")[0];
@@ -68,17 +77,71 @@
       
       // 問題データ取得
       getQuestion();
-      let count = 0;
- 
+      
+      function seikai() {
+        seikaiAudio.play();
+        document.getElementById('result').innerHTML 
+          = "<BR><BR><BR><span style='opacity: 1;' class='has-text-danger'>正解</span><BR><BR><BR><BR>"
+      }
+
+      function huseikai() {
+        var sentakuArea = null;
+        var answer = document.getElementById("answer").value;
+        if ($('#sentaku1').val() == answer) {
+          sentakuArea = "A:";
+        } else if ($('#sentaku2').val() == answer) {
+          sentakuArea = "B:";
+        } else if ($('#sentaku3').val() == answer) {
+          sentakuArea = "C:";
+        } else if ($('#sentaku4').val() == answer) {
+          sentakuArea = "D:";
+        }
+        huseikaiAudio.play();
+          document.getElementById('result').innerHTML 
+          = "<BR><BR><BR><span style='opacity: 1;' class='has-text-link'>不正解 （正解は、" + sentakuArea + answer + ")</span><BR><BR><BR><BR>"
+      }
+
+      //1000ミリ秒毎にcont_down関数を呼び出す
+      function count_start(){
+        count = 16;
+        stp = setInterval(count_down,1000);
+      }
+      //カウンドダウン表示
+      function count_down(){
+        if(count === 1){
+            var display = document.getElementById("countDownArea");
+            display.innerHTML = "TIME UP!";
+            huseikai()
+            countDisplay = 0;
+            setTimeout(countUp, 2000);
+            clearInterval(stp);
+
+        } else {
+            count--;
+            sec = count % 60;
+            var count_down = document.getElementById("countDownArea");
+            count_down.innerHTML = "残り時間" + sec + "秒" 
+        }
+      }
+
+      function countUp() {
+        if (countDisplay == 0) {
+          document.getElementById("sentaku1").disabled = false;
+          document.getElementById("sentaku2").disabled = false;
+          document.getElementById("sentaku3").disabled = false;
+          document.getElementById("sentaku4").disabled = false;
+          getQuestion();
+          countDisplay = countDisplay + 1;
+        }
+      }
       function getQuestion() {
-      // Ajax通信を開始
-      $.ajax({
-        url: 'https://script.googleusercontent.com/macros/echo?user_content_key=pdXdEWheCBRAxr8W3iZyR54KibwUcNICTQJSEEeSTmNH6sq5DHF6m-gB7uLnw1Wh0FQmJ6GtoY7-hyiyQYsbGTpLsPMZSRJFm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnI2VJD9wynt5wGJMH_voKxv8nCLsjlb84BaOudugYvptsGhvz8DTt7lnXqx2wdluzt8PGUzmKM7R09Y6yuavUIs53qZbZQxIgA&lib=Mc8zY5fM4utoF6lByjUpkrvIw6gzQYpwO',
-        type: 'GET',
-        async : false,  
-        dataType: 'json'
-      })
-      .done(function(data) {
+        // Ajax通信を開始
+        $.ajax({
+          url: 'https://script.googleusercontent.com/macros/echo?user_content_key=pdXdEWheCBRAxr8W3iZyR54KibwUcNICTQJSEEeSTmNH6sq5DHF6m-gB7uLnw1Wh0FQmJ6GtoY7-hyiyQYsbGTpLsPMZSRJFm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnI2VJD9wynt5wGJMH_voKxv8nCLsjlb84BaOudugYvptsGhvz8DTt7lnXqx2wdluzt8PGUzmKM7R09Y6yuavUIs53qZbZQxIgA&lib=Mc8zY5fM4utoF6lByjUpkrvIw6gzQYpwO',
+          type: 'GET',
+          async : false,  
+          dataType: 'json'
+        }).done(function(data) {
          var quizData = data.quiz.replace(/(\S)/g, '<span>$1</span>');
          document.getElementById('result').innerHTML = quizData + "<BR><BR><BR><BR><BR><BR><BR>"
          document.getElementById('sentaku1').value = data.sentaku1
@@ -92,13 +155,12 @@
          document.getElementById('answer').value = data.answer
 
          $('.typ').css({'opacity':1});
-
          var aaaaaaa = $('.typ').children().length;
          for (var i = 0; i <= aaaaaaa; i++) {
            $('.typ').children('span:eq('+i+')').delay(50*i).animate({'opacity':1},50);
          };
-        
          
+         count_start();         
       }) 
       .fail(function() {
           // 通信失敗時の処理を記述
@@ -135,51 +197,22 @@
         document.getElementById("sentaku2").disabled = true;
         document.getElementById("sentaku3").disabled = true;
         document.getElementById("sentaku4").disabled = true;
-
-        var sentaku = $(sentakuId).val(); 
-        var answer = document.getElementById("answer").value;
-        var sentakuArea = null;
-        if ($('#sentaku1').val() == answer) {
-          sentakuArea = "A:";
-        } else if ($('#sentaku2').val() == answer) {
-          sentakuArea = "B:";
-        }  else if ($('#sentaku3').val() == answer) {
-          sentakuArea = "C:";
-        } else if ($('#sentaku4').val() == answer) {
-          sentakuArea = "D:";
-        }
-
-        $('.typ').css({'opacity':1});
-        if (sentaku == answer) {
-          seikaiAudio.load();
-          seikaiAudio.play();
-          document.getElementById('result').innerHTML 
-          = "<BR><BR><BR><span style='opacity: 1;' class='has-text-danger'>正解</span><BR><BR><BR><BR>"
         
+        var answer = document.getElementById("answer").value;
+        $('.typ').css({'opacity':1});
+        var sentaku = $(sentakuId).val(); 
+        if (sentaku == answer) {
+          seikai();
         } else {
-          huseikaiAudio.load();
-          huseikaiAudio.play();
-          document.getElementById('result').innerHTML 
-          = "<BR><BR><BR><span style='opacity: 1;' class='has-text-link'>不正解 （正解は、" + sentakuArea + answer + ")</span><BR><BR><BR><BR>"
+          huseikai();
         }
-
-        count = 0;
+        countDisplay = 0;
         setTimeout(countUp, 2000);
+        clearInterval(stp);
       }
-
-      function countUp() {
-        if (count == 0) {
-          document.getElementById("sentaku1").disabled = false;
-          document.getElementById("sentaku2").disabled = false;
-          document.getElementById("sentaku3").disabled = false;
-          document.getElementById("sentaku4").disabled = false;
-          getQuestion();
-          count = count + 1;
-        }
       }
-    }
     });
-   </script>
+  </script>
   <style>
   
   .btn { 
@@ -193,6 +226,9 @@
    }
   .typ span {
     opacity: 0;
+  }
+  .test  {
+    text-align: left!important;
   }
 
   @media screen and (min-width: 0) and (max-width: 768px){
