@@ -6,7 +6,18 @@
     <title>テスト1</title>
   </head>
   <body>
-   <section class="hero is-fullheight">
+    <div class="audio" style="display:none">
+      <audio src="./audio/life.mp3" id="qmaAudio" controls="controls" />
+    </div>
+
+    <section  id="startArea" class="hero is-fullheight">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <a id="btnsend" class="button is-success is-outlined is-midium " style="margin-top:10px">雑学４択 ゲームスタート</a>
+        </div>
+      </div>
+    </section>
+    <section id="questionArea" style="display:none" class="hero is-fullheight">
       <div class="hero-body">
         <div class="container has-text-centered">
         <hgroup>  
@@ -41,7 +52,9 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
    <script>
    $(function() {
-      
+      // 音声ファイルを読み込み
+      var audio = $("#qmaAudio")[0];
+     
       getTorivia();
       
       function getTorivia() {
@@ -67,6 +80,16 @@
           // 通信失敗時の処理を記述
           alert("通信エラー")
       });
+
+      $('#btnsend').on('click', function(){
+         // 音声の再生
+         audio.load();
+         audio.play();
+         audio.loop = true;
+
+         document.getElementById("startArea").style.display ="none"; 
+         document.getElementById("questionArea").style.display =""; 
+      });
     }
     });
    </script>
@@ -83,7 +106,6 @@
      width:300px;
     }    
   }
-  
   </style>
   </body>
 </html>
