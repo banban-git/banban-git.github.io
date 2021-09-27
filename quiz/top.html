@@ -61,62 +61,58 @@
    
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script>
-    var count = 16;　//カウントダウンの数字を格納する変数
-    var min = 0;　//残り時間「分」を格納する変数
-    var sec = 0;　//残り時間「秒」を格納する変数
+    var count = 16;　 //カウントダウンの数字を格納する変数
+    var min = 0;　 //残り時間「分」を格納する変数
+    var sec = 0;　 //残り時間「秒」を格納する変数
     var stp = null; //setInerval・clearInervalを制御する変数
-    var i = 0;　//ボタンの2回クリック等禁止イベントを制御する変数
+    var i = 0;　 //ボタンの2回クリック等禁止イベントを制御する変数
     let countDisplay = 0;
- 
-    $(function() {
-
+    $(function () {
       // 音声ファイルを読み込み
       var audio = $("#qmaAudio")[0];
       var seikaiAudio = $("#seikaiAudio")[0];
       var huseikaiAudio = $("#huseikaiAudio")[0];
-      
-      // 問題データ取得
-      getQuestion();
-
+    
       function getQuestion() {
         // Ajax通信を開始
         $.ajax({
           url: 'https://script.googleusercontent.com/macros/echo?user_content_key=pdXdEWheCBRAxr8W3iZyR54KibwUcNICTQJSEEeSTmNH6sq5DHF6m-gB7uLnw1Wh0FQmJ6GtoY7-hyiyQYsbGTpLsPMZSRJFm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnI2VJD9wynt5wGJMH_voKxv8nCLsjlb84BaOudugYvptsGhvz8DTt7lnXqx2wdluzt8PGUzmKM7R09Y6yuavUIs53qZbZQxIgA&lib=Mc8zY5fM4utoF6lByjUpkrvIw6gzQYpwO',
           type: 'GET',
-          async : false,  
+          async: false,
           dataType: 'json'
-        }).done(function(data) {
-         var quizData = data.quiz.replace(/(\S)/g, '<span>$1</span>');
-         document.getElementById('result').innerHTML = quizData + "<BR><BR><BR><BR><BR><BR><BR>"
-         document.getElementById('sentaku1').value = data.sentaku1
-         document.getElementById('sentaku1').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku1 + "</span>"
-         document.getElementById('sentaku2').value = data.sentaku2
-         document.getElementById('sentaku2').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku2 + "</span>"
-         document.getElementById('sentaku3').value = data.sentaku3
-         document.getElementById('sentaku3').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku3 + "</span>"
-         document.getElementById('sentaku4').value = data.sentaku4
-         document.getElementById('sentaku4').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku4 + "</span>"
-         document.getElementById('answer').value = data.answer
-
-         $('.typ').css({'opacity':1});
-         var aaaaaaa = $('.typ').children().length;
-         for (var i = 0; i <= aaaaaaa; i++) {
-           $('.typ').children('span:eq('+i+')').delay(50*i).animate({'opacity':1},50);
-         };
-         
-         count_start();         
-      }) 
-      .fail(function() {
+        }).done(function (data) {
+          var quizData = data.quiz.replace(/(\S)/g, '<span>$1</span>');
+          document.getElementById('result').innerHTML = quizData + "<BR><BR><BR><BR><BR><BR><BR>"
+          document.getElementById('sentaku1').value = data.sentaku1
+          document.getElementById('sentaku1').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku1 + "</span>"
+          document.getElementById('sentaku2').value = data.sentaku2
+          document.getElementById('sentaku2').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku2 + "</span>"
+          document.getElementById('sentaku3').value = data.sentaku3
+          document.getElementById('sentaku3').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku3 + "</span>"
+          document.getElementById('sentaku4').value = data.sentaku4
+          document.getElementById('sentaku4').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku4 + "</span>"
+          document.getElementById('answer').value = data.answer
+          $('.typ').css({
+            'opacity': 1
+          });
+          var aaaaaaa = $('.typ').children().length;
+          for (var i = 0; i <= aaaaaaa; i++) {
+            $('.typ').children('span:eq(' + i + ')').delay(50 * i).animate({
+              'opacity': 1
+            }, 50);
+          };
+          count_start();
+        }).fail(function () {
           // 通信失敗時の処理を記述
           alert("通信エラー")
-      });
-
+        });
+      }
+    
       function seikai() {
         seikaiAudio.play();
-        document.getElementById('result').innerHTML 
-          = "<BR><BR><BR><span style='opacity: 1;' class='has-text-danger'>正解</span><BR><BR><BR><BR>"
+        document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='has-text-danger'>正解</span><BR><BR><BR><BR>"
       }
-
+    
       function huseikai() {
         var sentakuArea = null;
         var answer = document.getElementById("answer").value;
@@ -130,33 +126,30 @@
           sentakuArea = "D:";
         }
         huseikaiAudio.play();
-          document.getElementById('result').innerHTML 
-          = "<BR><BR><BR><span style='opacity: 1;' class='has-text-link'>不正解 （正解は、" + sentakuArea + answer + ")</span><BR><BR><BR><BR>"
+        document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='has-text-link'>不正解 （正解は、" + sentakuArea + answer + ")</span><BR><BR><BR><BR>"
       }
-
       //1000ミリ秒毎にcont_down関数を呼び出す
-      function count_start(){
+      function count_start() {
         count = 16;
-        stp = setInterval(count_down,1000);
+        stp = setInterval(count_down, 1000);
       }
       //カウンドダウン表示
-      function count_down(){
-        if(count === 1){
-            var display = document.getElementById("countDownArea");
-            display.innerHTML = "TIME UP!";
-            huseikai()
-            countDisplay = 0;
-            setTimeout(countUp, 2000);
-            clearInterval(stp);
-
+      function count_down() {
+        if (count === 1) {
+          var display = document.getElementById("countDownArea");
+          display.innerHTML = "TIME UP!";
+          huseikai()
+          countDisplay = 0;
+          setTimeout(countUp, 2000);
+          clearInterval(stp);
         } else {
-            count--;
-            sec = count % 60;
-            var count_down = document.getElementById("countDownArea");
-            count_down.innerHTML = "残り時間" + sec + "秒" 
+          count--;
+          sec = count % 60;
+          var count_down = document.getElementById("countDownArea");
+          count_down.innerHTML = "残り時間" + sec + "秒"
         }
       }
-
+    
       function countUp() {
         if (countDisplay == 0) {
           document.getElementById("sentaku1").disabled = false;
@@ -167,41 +160,41 @@
           countDisplay = countDisplay + 1;
         }
       }
-
-      $('#btnsend').on('click', function(){
-         // 音声の再生
-         audio.load();
-         audio.play();
-         audio.loop = true;
-         audio.volume = 0.8
-
-         document.getElementById("startArea").style.display ="none"; 
-         document.getElementById("questionArea").style.display =""; 
-         
+      $('#btnsend').on('click', function () {
+        // 音声の再生
+        audio.load();
+        audio.play();
+        audio.loop = true;
+        audio.volume = 0.8
+        document.getElementById("startArea").style.display = "none";
+        document.getElementById("questionArea").style.display = "";
+        
+        // 問題データ取得
+        getQuestion();
       });
-
-      $('#sentaku1').on('click', function(){
-         getAnswer(this);
-      });
-      $('#sentaku2').on('click', function(){
+      $('#sentaku1').on('click', function () {
         getAnswer(this);
       });
-      $('#sentaku3').on('click', function(){
+      $('#sentaku2').on('click', function () {
         getAnswer(this);
       });
-      $('#sentaku4').on('click', function(){
+      $('#sentaku3').on('click', function () {
         getAnswer(this);
       });
-
+      $('#sentaku4').on('click', function () {
+        getAnswer(this);
+      });
+    
       function getAnswer(sentakuId) {
         document.getElementById("sentaku1").disabled = true;
         document.getElementById("sentaku2").disabled = true;
         document.getElementById("sentaku3").disabled = true;
         document.getElementById("sentaku4").disabled = true;
-        
         var answer = document.getElementById("answer").value;
-        $('.typ').css({'opacity':1});
-        var sentaku = $(sentakuId).val(); 
+        $('.typ').css({
+          'opacity': 1
+        });
+        var sentaku = $(sentakuId).val();
         if (sentaku == answer) {
           seikai();
         } else {
@@ -210,9 +203,8 @@
         countDisplay = 0;
         setTimeout(countUp, 2000);
         clearInterval(stp);
-        }
       }
-    });
+    }); 
   </script>
   <style>
   
