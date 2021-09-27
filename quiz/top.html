@@ -9,6 +9,12 @@
     <div class="audio" style="display:none">
       <audio src="./audio/life.mp3" id="qmaAudio" controls="controls" />
     </div>
+    <div class="audio" style="display:none">
+      <audio src="./audio/seikai.mp3" id="seikaiAudio" controls="controls" />
+    </div>
+    <div class="audio" style="display:none">
+      <audio src="./audio/huseikai.mp3" id="huseikaiAudio" controls="controls" />
+    </div>
 
     <section  id="startArea" class="hero is-fullheight">
       <div class="hero-body">
@@ -57,10 +63,14 @@
    $(function() {
       // 音声ファイルを読み込み
       var audio = $("#qmaAudio")[0];
-      getTorivia();
+      var seikaiAudio = $("#seikaiAudio")[0];
+      var huseikaiAudio = $("#huseikaiAudio")[0];
+      
+      // 問題データ取得
+      getQuestion();
       let count = 0;
  
-      function getTorivia() {
+      function getQuestion() {
       // Ajax通信を開始
       $.ajax({
         url: 'https://script.googleusercontent.com/macros/echo?user_content_key=pdXdEWheCBRAxr8W3iZyR54KibwUcNICTQJSEEeSTmNH6sq5DHF6m-gB7uLnw1Wh0FQmJ6GtoY7-hyiyQYsbGTpLsPMZSRJFm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnI2VJD9wynt5wGJMH_voKxv8nCLsjlb84BaOudugYvptsGhvz8DTt7lnXqx2wdluzt8PGUzmKM7R09Y6yuavUIs53qZbZQxIgA&lib=Mc8zY5fM4utoF6lByjUpkrvIw6gzQYpwO',
@@ -141,10 +151,14 @@
 
         $('.typ').css({'opacity':1});
         if (sentaku == answer) {
+          seikaiAudio.load();
+          seikaiAudio.play();
           document.getElementById('result').innerHTML 
           = "<BR><BR><BR><span style='opacity: 1;' class='has-text-danger'>正解</span><BR><BR><BR><BR>"
         
-          } else {
+        } else {
+          huseikaiAudio.load();
+          huseikaiAudio.play();
           document.getElementById('result').innerHTML 
           = "<BR><BR><BR><span style='opacity: 1;' class='has-text-link'>不正解 （正解は、" + sentakuArea + answer + ")</span><BR><BR><BR><BR>"
         }
@@ -159,7 +173,7 @@
           document.getElementById("sentaku2").disabled = false;
           document.getElementById("sentaku3").disabled = false;
           document.getElementById("sentaku4").disabled = false;
-          getTorivia();
+          getQuestion();
           count = count + 1;
         }
       }
