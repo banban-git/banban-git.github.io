@@ -3,7 +3,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css" />
-    <title>テスト1</title>
+    <title>雑学４択</title>
   </head>
   <body>
     <div class="audio" style="display:none">
@@ -25,7 +25,7 @@
         </hgroup>
         
         <section class="section-sub" style="border: 2px solid #000000">
-          <div class="is-size-5" id="result"><BR><BR><BR>
+          <div class="is-size-5" id="result">
         </section>
         <BR><BR>
 
@@ -43,6 +43,7 @@
               <span class="button is-success sentaku4">
                 D　<button class="btn button is-small is-outlined"" type="button" id="sentaku4" name="sentaku4" value="test"></button>
               </span><br>
+              <input type="hidden" id="answer" name="answer" value="">
             </form>
         </section>
         </div>
@@ -54,9 +55,8 @@
    $(function() {
       // 音声ファイルを読み込み
       var audio = $("#qmaAudio")[0];
-     
       getTorivia();
-      
+
       function getTorivia() {
       // Ajax通信を開始
       $.ajax({
@@ -66,7 +66,7 @@
         dataType: 'json'
       })
       .done(function(data) {
-         document.getElementById('result').innerHTML = "<span class='eachTextAnime'>" + data.quiz + "</span><BR><BR><BR>"
+         document.getElementById('result').innerHTML = "<span class='eachTextAnime'>" + data.quiz + "</span><BR><BR><BR><BR><BR><BR><BR>"
          document.getElementById('sentaku1').value = data.sentaku1
          document.getElementById('sentaku1').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku1 + "</span>"
          document.getElementById('sentaku2').value = data.sentaku2
@@ -75,6 +75,9 @@
          document.getElementById('sentaku3').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku3 + "</span>"
          document.getElementById('sentaku4').value = data.sentaku4
          document.getElementById('sentaku4').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku4 + "</span>"
+         
+         document.getElementById('answer').value = data.answer
+         
       })
       .fail(function() {
           // 通信失敗時の処理を記述
@@ -86,10 +89,50 @@
          audio.load();
          audio.play();
          audio.loop = true;
+         audio.volume = 0.8
 
          document.getElementById("startArea").style.display ="none"; 
          document.getElementById("questionArea").style.display =""; 
       });
+
+      $('#sentaku1').on('click', function(){
+         getAnswer(this);
+      });
+      $('#sentaku2').on('click', function(){
+        getAnswer(this);
+      });
+      $('#sentaku3').on('click', function(){
+        getAnswer(this);
+      });
+      $('#sentaku4').on('click', function(){
+        getAnswer(this);
+      });
+
+      function getAnswer(sentakuId) {
+        document.getElementById("sentaku1").disabled = true;
+        document.getElementById("sentaku2").disabled = true;
+        document.getElementById("sentaku3").disabled = true;
+        document.getElementById("sentaku4").disabled = true;
+
+        var sentaku = $(sentakuId).val(); 
+        var answer = document.getElementById("answer").value;
+        if (sentaku == answer) {
+          document.getElementById('result').innerHTML = "<BR><BR><BR><span class='has-text-danger'>正解</span><BR><BR><BR><BR>"
+        } else {
+          document.getElementById('result').innerHTML = "<BR><BR><BR><span class='has-text-link'>不正解</span><BR><BR><BR><BR>"
+        }
+        
+        setTimeout(countUp, 2000);
+      }
+
+      let count = 0;
+      const countUp = () => {
+         document.getElementById("sentaku1").disabled = false;
+         document.getElementById("sentaku2").disabled = false;
+         document.getElementById("sentaku3").disabled = false;
+         document.getElementById("sentaku4").disabled = false;
+         getTorivia();
+       }  
     }
     });
    </script>
