@@ -128,13 +128,27 @@
 
         var sentaku = $(sentakuId).val(); 
         var answer = document.getElementById("answer").value;
-        
+        var sentakuArea = null;
+        if ($('#sentaku1').val() == answer) {
+          sentakuArea = "A:";
+        } else if ($('#sentaku2').val() == answer) {
+          sentakuArea = "B:";
+        }  else if ($('#sentaku3').val() == answer) {
+          sentakuArea = "C:";
+        } else if ($('#sentaku4').val() == answer) {
+          sentakuArea = "D:";
+        }
+
         $('.typ').css({'opacity':1});
         if (sentaku == answer) {
-          document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='has-text-danger'>正解</span><BR><BR><BR><BR>"
-        } else {
-          document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='has-text-link'>不正解</span><BR><BR><BR><BR>"
+          document.getElementById('result').innerHTML 
+          = "<BR><BR><BR><span style='opacity: 1;' class='has-text-danger'>正解</span><BR><BR><BR><BR>"
+        
+          } else {
+          document.getElementById('result').innerHTML 
+          = "<BR><BR><BR><span style='opacity: 1;' class='has-text-link'>不正解 （正解は、" + sentakuArea + answer + ")</span><BR><BR><BR><BR>"
         }
+
         count = 0;
         setTimeout(countUp, 2000);
       }
