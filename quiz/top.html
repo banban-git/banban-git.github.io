@@ -77,7 +77,40 @@
       
       // 問題データ取得
       getQuestion();
-      
+
+      function getQuestion() {
+        // Ajax通信を開始
+        $.ajax({
+          url: 'https://script.googleusercontent.com/macros/echo?user_content_key=pdXdEWheCBRAxr8W3iZyR54KibwUcNICTQJSEEeSTmNH6sq5DHF6m-gB7uLnw1Wh0FQmJ6GtoY7-hyiyQYsbGTpLsPMZSRJFm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnI2VJD9wynt5wGJMH_voKxv8nCLsjlb84BaOudugYvptsGhvz8DTt7lnXqx2wdluzt8PGUzmKM7R09Y6yuavUIs53qZbZQxIgA&lib=Mc8zY5fM4utoF6lByjUpkrvIw6gzQYpwO',
+          type: 'GET',
+          async : false,  
+          dataType: 'json'
+        }).done(function(data) {
+         var quizData = data.quiz.replace(/(\S)/g, '<span>$1</span>');
+         document.getElementById('result').innerHTML = quizData + "<BR><BR><BR><BR><BR><BR><BR>"
+         document.getElementById('sentaku1').value = data.sentaku1
+         document.getElementById('sentaku1').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku1 + "</span>"
+         document.getElementById('sentaku2').value = data.sentaku2
+         document.getElementById('sentaku2').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku2 + "</span>"
+         document.getElementById('sentaku3').value = data.sentaku3
+         document.getElementById('sentaku3').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku3 + "</span>"
+         document.getElementById('sentaku4').value = data.sentaku4
+         document.getElementById('sentaku4').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku4 + "</span>"
+         document.getElementById('answer').value = data.answer
+
+         $('.typ').css({'opacity':1});
+         var aaaaaaa = $('.typ').children().length;
+         for (var i = 0; i <= aaaaaaa; i++) {
+           $('.typ').children('span:eq('+i+')').delay(50*i).animate({'opacity':1},50);
+         };
+         
+         count_start();         
+      }) 
+      .fail(function() {
+          // 通信失敗時の処理を記述
+          alert("通信エラー")
+      });
+
       function seikai() {
         seikaiAudio.play();
         document.getElementById('result').innerHTML 
@@ -134,38 +167,6 @@
           countDisplay = countDisplay + 1;
         }
       }
-      function getQuestion() {
-        // Ajax通信を開始
-        $.ajax({
-          url: 'https://script.googleusercontent.com/macros/echo?user_content_key=pdXdEWheCBRAxr8W3iZyR54KibwUcNICTQJSEEeSTmNH6sq5DHF6m-gB7uLnw1Wh0FQmJ6GtoY7-hyiyQYsbGTpLsPMZSRJFm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnI2VJD9wynt5wGJMH_voKxv8nCLsjlb84BaOudugYvptsGhvz8DTt7lnXqx2wdluzt8PGUzmKM7R09Y6yuavUIs53qZbZQxIgA&lib=Mc8zY5fM4utoF6lByjUpkrvIw6gzQYpwO',
-          type: 'GET',
-          async : false,  
-          dataType: 'json'
-        }).done(function(data) {
-         var quizData = data.quiz.replace(/(\S)/g, '<span>$1</span>');
-         document.getElementById('result').innerHTML = quizData + "<BR><BR><BR><BR><BR><BR><BR>"
-         document.getElementById('sentaku1').value = data.sentaku1
-         document.getElementById('sentaku1').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku1 + "</span>"
-         document.getElementById('sentaku2').value = data.sentaku2
-         document.getElementById('sentaku2').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku2 + "</span>"
-         document.getElementById('sentaku3').value = data.sentaku3
-         document.getElementById('sentaku3').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku3 + "</span>"
-         document.getElementById('sentaku4').value = data.sentaku4
-         document.getElementById('sentaku4').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku4 + "</span>"
-         document.getElementById('answer').value = data.answer
-
-         $('.typ').css({'opacity':1});
-         var aaaaaaa = $('.typ').children().length;
-         for (var i = 0; i <= aaaaaaa; i++) {
-           $('.typ').children('span:eq('+i+')').delay(50*i).animate({'opacity':1},50);
-         };
-         
-         count_start();         
-      }) 
-      .fail(function() {
-          // 通信失敗時の処理を記述
-          alert("通信エラー")
-      });
 
       $('#btnsend').on('click', function(){
          // 音声の再生
@@ -209,7 +210,7 @@
         countDisplay = 0;
         setTimeout(countUp, 2000);
         clearInterval(stp);
-      }
+        }
       }
     });
   </script>
