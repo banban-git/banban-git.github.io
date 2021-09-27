@@ -25,7 +25,9 @@
         </hgroup>
         
         <section class="section-sub" style="border: 2px solid #000000">
-          <div class="is-size-5" id="result">
+          <!--<div class="is-size-5" id="result"> -->
+          <p class="is-size-5 typ" id="result"></p>
+
         </section>
         <BR><BR>
 
@@ -67,7 +69,8 @@
         dataType: 'json'
       })
       .done(function(data) {
-         document.getElementById('result').innerHTML = "<span class='eachTextAnime'>" + data.quiz + "</span><BR><BR><BR><BR><BR><BR><BR>"
+         var quizData = data.quiz.replace(/(\S)/g, '<span>$1</span>');
+         document.getElementById('result').innerHTML = quizData + "<BR><BR><BR><BR><BR><BR><BR>"
          document.getElementById('sentaku1').value = data.sentaku1
          document.getElementById('sentaku1').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku1 + "</span>"
          document.getElementById('sentaku2').value = data.sentaku2
@@ -76,10 +79,17 @@
          document.getElementById('sentaku3').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku3 + "</span>"
          document.getElementById('sentaku4').value = data.sentaku4
          document.getElementById('sentaku4').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku4 + "</span>"
-         
          document.getElementById('answer').value = data.answer
+
+         $('.typ').css({'opacity':1});
+
+         var aaaaaaa = $('.typ').children().length;
+         for (var i = 0; i <= aaaaaaa; i++) {
+           $('.typ').children('span:eq('+i+')').delay(50*i).animate({'opacity':1},50);
+         };
+        
          
-      })
+      }) 
       .fail(function() {
           // 通信失敗時の処理を記述
           alert("通信エラー")
@@ -94,6 +104,7 @@
 
          document.getElementById("startArea").style.display ="none"; 
          document.getElementById("questionArea").style.display =""; 
+         
       });
 
       $('#sentaku1').on('click', function(){
@@ -117,10 +128,12 @@
 
         var sentaku = $(sentakuId).val(); 
         var answer = document.getElementById("answer").value;
+        
+        $('.typ').css({'opacity':1});
         if (sentaku == answer) {
-          document.getElementById('result').innerHTML = "<BR><BR><BR><span class='has-text-danger'>正解</span><BR><BR><BR><BR>"
+          document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='has-text-danger'>正解</span><BR><BR><BR><BR>"
         } else {
-          document.getElementById('result').innerHTML = "<BR><BR><BR><span class='has-text-link'>不正解</span><BR><BR><BR><BR>"
+          document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='has-text-link'>不正解</span><BR><BR><BR><BR>"
         }
         count = 0;
         setTimeout(countUp, 2000);
@@ -135,7 +148,7 @@
           getTorivia();
           count = count + 1;
         }
-       }  
+      }
     }
     });
    </script>
@@ -147,6 +160,13 @@
   .sentaku1,.sentaku2, .sentaku3 ,.sentaku4 { 
      margin-top: 20px;
   }
+  .typ {
+    opacity: 0;
+   }
+  .typ span {
+    opacity: 0;
+  }
+
   @media screen and (min-width: 0) and (max-width: 768px){
     .btn { 
      width:300px;
