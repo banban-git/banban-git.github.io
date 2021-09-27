@@ -56,13 +56,13 @@
       // 音声ファイルを読み込み
       var audio = $("#qmaAudio")[0];
       getTorivia();
-
+      let count = 0;
+ 
       function getTorivia() {
       // Ajax通信を開始
       $.ajax({
         url: 'https://script.googleusercontent.com/macros/echo?user_content_key=pdXdEWheCBRAxr8W3iZyR54KibwUcNICTQJSEEeSTmNH6sq5DHF6m-gB7uLnw1Wh0FQmJ6GtoY7-hyiyQYsbGTpLsPMZSRJFm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnI2VJD9wynt5wGJMH_voKxv8nCLsjlb84BaOudugYvptsGhvz8DTt7lnXqx2wdluzt8PGUzmKM7R09Y6yuavUIs53qZbZQxIgA&lib=Mc8zY5fM4utoF6lByjUpkrvIw6gzQYpwO',
         type: 'GET',
-        async : false,  
         dataType: 'json'
       })
       .done(function(data) {
@@ -96,15 +96,19 @@
       });
 
       $('#sentaku1').on('click', function(){
+        console.log("1");
          getAnswer(this);
       });
       $('#sentaku2').on('click', function(){
+        console.log("2");
         getAnswer(this);
       });
       $('#sentaku3').on('click', function(){
+        console.log("3");
         getAnswer(this);
       });
       $('#sentaku4').on('click', function(){
+        console.log("4");
         getAnswer(this);
       });
 
@@ -121,17 +125,19 @@
         } else {
           document.getElementById('result').innerHTML = "<BR><BR><BR><span class='has-text-link'>不正解</span><BR><BR><BR><BR>"
         }
-        
+        count = 0;
         setTimeout(countUp, 2000);
       }
 
-      let count = 0;
-      const countUp = () => {
-         document.getElementById("sentaku1").disabled = false;
-         document.getElementById("sentaku2").disabled = false;
-         document.getElementById("sentaku3").disabled = false;
-         document.getElementById("sentaku4").disabled = false;
-         getTorivia();
+      function countUp() {
+        if (count == 0) {
+          document.getElementById("sentaku1").disabled = false;
+          document.getElementById("sentaku2").disabled = false;
+          document.getElementById("sentaku3").disabled = false;
+          document.getElementById("sentaku4").disabled = false;
+          getTorivia();
+          count = count + 1;
+        }
        }  
     }
     });
@@ -142,7 +148,7 @@
      width:500px;
   }
   .sentaku1,.sentaku2, .sentaku3 ,.sentaku4 { 
-     margin-top: 15px;
+     margin-top: 20px;
   }
   @media screen and (min-width: 0) and (max-width: 768px){
     .btn { 
