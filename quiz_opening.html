@@ -3,11 +3,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css" />
-    <title>テスト</title>
+    <title>クイズマジックバンバン</title>
   </head>
   <body >
    <video id="player">
-     <source src="./quiz/opening.mp4" type="video/mp4">
+     <source src="./quiz/audio/opening.mp4" type="video/mp4">
    </video>
    <button id="btnsend" class="button is-danger is-outlined is-midium " style="margin-top:10px">スタート</button>
    
@@ -15,20 +15,21 @@
    <script>
    $(function() {
       $('#btnsend').on('click', function(){
-        var player = $('#player').get(0);	//videoタグの要素を取得
+        //videoタグの要素を取得
+        var player = $('#player').get(0);
+
         //videoタグをDOM的に削除
         player.play();
         player.currentTime = 0;
+
         //動画が終了したことを検出して発火する処理
         player.addEventListener('ended',function() {
-         //videoタグをDOM的に削除
-         $('#player').remove();	
-         window.location.href = './quiz/quiz_main.html';
+          window.location.href = './quiz/top.html';
        });
       });
       
       $('#player').on('click', function(){
-        window.location.href = './quiz/quiz_main.html';
+        window.location.href = './quiz/top.html';
       });
       
     });

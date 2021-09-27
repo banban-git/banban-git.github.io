@@ -1,0 +1,94 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css" />
+    <title>テスト1</title>
+  </head>
+  <body>
+   <section class="hero is-fullheight">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+        <hgroup>  
+            <b>雑学　４択</b>
+        </hgroup>
+        
+        <section class="section-sub" style="border: 2px solid #000000">
+          <div class="is-size-5" id="result"><BR><BR><BR>
+        </section>
+        <BR><BR>
+
+        <section class="section-sub">
+            <form name="form1">
+              <span class="button is-danger sentaku1">
+                A　<button class="btn button is-small is-outlined"" type="button" id="sentaku1" name="sentaku1" value="test"></button>
+              </span><br>
+              <span class="button is-link sentaku2">
+                B　<button class="btn button is-small is-outlined"" type="button" id="sentaku2" name="sentaku2" value="test"></button>
+              </span><br>
+              <span class="button is-warning sentaku3">
+                C　<button class="btn button is-small is-outlined"" type="button" id="sentaku3" name="sentaku3" value="test"></button>
+              </span><br>
+              <span class="button is-success sentaku4">
+                D　<button class="btn button is-small is-outlined"" type="button" id="sentaku4" name="sentaku4" value="test"></button>
+              </span><br>
+            </form>
+        </section>
+        </div>
+      </div>
+    </section>
+   
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script>
+   $(function() {
+      
+      getTorivia();
+      
+      function getTorivia() {
+      // Ajax通信を開始
+      $.ajax({
+        url: 'https://script.googleusercontent.com/macros/echo?user_content_key=pdXdEWheCBRAxr8W3iZyR54KibwUcNICTQJSEEeSTmNH6sq5DHF6m-gB7uLnw1Wh0FQmJ6GtoY7-hyiyQYsbGTpLsPMZSRJFm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnI2VJD9wynt5wGJMH_voKxv8nCLsjlb84BaOudugYvptsGhvz8DTt7lnXqx2wdluzt8PGUzmKM7R09Y6yuavUIs53qZbZQxIgA&lib=Mc8zY5fM4utoF6lByjUpkrvIw6gzQYpwO',
+        type: 'GET',
+        async : false,  
+        dataType: 'json'
+      })
+      .done(function(data) {
+         document.getElementById('result').innerHTML = "<span class='eachTextAnime'>" + data.quiz + "</span><BR><BR><BR>"
+         document.getElementById('sentaku1').value = data.sentaku1
+         document.getElementById('sentaku1').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku1 + "</span>"
+         document.getElementById('sentaku2').value = data.sentaku2
+         document.getElementById('sentaku2').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku2 + "</span>"
+         document.getElementById('sentaku3').value = data.sentaku3
+         document.getElementById('sentaku3').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku3 + "</span>"
+         document.getElementById('sentaku4').value = data.sentaku4
+         document.getElementById('sentaku4').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku4 + "</span>"
+      })
+      .fail(function() {
+          // 通信失敗時の処理を記述
+          alert("通信エラー")
+      });
+    }
+    });
+   </script>
+  <style>
+  .btn { 
+     width:500px;
+  }
+  .sentaku1,.sentaku2, .sentaku3 ,.sentaku4 { 
+     margin-top: 15px;
+  }
+  p{
+    text-align: center;
+    margin: 20px 0;
+    font-size:1.5rem;
+  }
+  .eachTextAnime span{opacity: 0;}
+  .eachTextAnime.appeartext span{ animation:text_anime_on 1s ease-out forwards; }
+    @keyframes text_anime_on {
+     0% {opacity:0;}
+     100% {opacity:1;}
+  }
+  
+  </style>
+  </body>
+</html>
