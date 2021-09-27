@@ -30,13 +30,10 @@
         <b>雑学　４択</b>
         
         <section class="section-sub" style="border: 2px solid #000000; height:250px;">
-          <!--<div class="is-size-5" id="result"> -->
           <p class="is-size-5 typ" style="padding: 10px;" id="result"></p>
         </section>
         <BR>
-
         <span id="countDownArea">残り時間</span>
-
         <section class="section-sub">
             <form name="form1">
               <span class="button is-danger sentaku1">
@@ -65,13 +62,33 @@
     var sec = 0;　 //残り時間「秒」を格納する変数
     var stp = null; //setInerval・clearInervalを制御する変数
     var i = 0;　 //ボタンの2回クリック等禁止イベントを制御する変数
-    let countDisplay = 0;
+
     $(function () {
       // 音声ファイルを読み込み
       var audio = $("#qmaAudio")[0];
       var seikaiAudio = $("#seikaiAudio")[0];
       var huseikaiAudio = $("#huseikaiAudio")[0];
     
+      /////////////////////////
+      // ゲームスタートクリック時
+      /////////////////////////
+      $('#btnsend').on('click', function () {
+        // 音声の再生
+        audio.load();
+        audio.play();
+        audio.loop = true;
+        audio.volume = 0.8
+        // 表示エリア切り替え
+        document.getElementById("startArea").style.display = "none";
+        document.getElementById("questionArea").style.display = "";
+        
+        // 問題データ取得
+        getQuestion();
+      });
+
+      /////////////////////////
+      // 問題取得 (GASから取得)
+      /////////////////////////
       function getQuestion() {
         // Ajax通信を開始
         $.ajax({
@@ -80,6 +97,7 @@
           async: false,
           dataType: 'json'
         }).done(function (data) {
+          // クイズデータ反映
           var quizData = data.quiz.replace(/(\S)/g, '<span>$1</span>');
           document.getElementById('result').innerHTML = quizData + "<BR><BR><BR><BR><BR><BR>"
           document.getElementById('sentaku1').value = data.sentaku1
@@ -91,27 +109,36 @@
           document.getElementById('sentaku4').value = data.sentaku4
           document.getElementById('sentaku4').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku4 + "</span>"
           document.getElementById('answer').value = data.answer
+          
+          // クイズ問題フェードイン（１文字ずつ）
           $('.typ').css({
             'opacity': 1
           });
-          var aaaaaaa = $('.typ').children().length;
-          for (var i = 0; i <= aaaaaaa; i++) {
+          var typLength = $('.typ').children().length;
+          for (var i = 0; i <= typLength; i++) {
             $('.typ').children('span:eq(' + i + ')').delay(50 * i).animate({
-              'opacity': 1
-            }, 50);
+              'opacity': 1 }, 50);
           };
+
+          // カウントダウンスタート 
           count_start();
+
         }).fail(function () {
           // 通信失敗時の処理を記述
           alert("通信エラー")
         });
       }
     
+      /////////////////////////
+      // 正解処理
+      /////////////////////////
       function seikai() {
         seikaiAudio.play();
-        document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='has-text-danger'>正解"
+        document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='is-size-2 has-text-danger'>正解"
       }
-    
+      /////////////////////////
+      // 不正解処理
+      /////////////////////////
       function huseikai() {
         var sentakuArea = null;
         var answer = document.getElementById("answer").value;
@@ -125,21 +152,25 @@
           sentakuArea = "D:";
         }
         huseikaiAudio.play();
-        document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='has-text-link'>不正解 <br>（正解は、" + sentakuArea + answer + ")"
+        document.getElementById('result').innerHTML = "<BR><BR><span style='opacity: 1;' class='is-size-2 has-text-link'>不正解</span> <br><span style='opacity: 1;' class='has-text-link'>（正解は、" + sentakuArea + answer + ")</span>"
       }
-      //1000ミリ秒毎にcont_down関数を呼び出す
+
+      /////////////////////////////////////////////////////////
+      // カウントスタート（1000ミリ秒毎にcont_down関数を呼び出す）
+      /////////////////////////////////////////////////////////
       function count_start() {
         count = 16;
         stp = setInterval(count_down, 1000);
       }
-      //カウンドダウン表示
+      /////////////////////////////////////////////////////////
+      // カウントダウン処理
+      /////////////////////////////////////////////////////////
       function count_down() {
         if (count === 1) {
           var display = document.getElementById("countDownArea");
-          display.innerHTML = "TIME UP!";
+          display.innerHTML = "TIME UP!!";
           huseikai()
-          countDisplay = 0;
-          setTimeout(countUp, 2000);
+          setTimeout(nextQuestion, 2000);
           clearInterval(stp);
         } else {
           count--;
@@ -149,86 +180,77 @@
         }
       }
     
-      function countUp() {
-        if (countDisplay == 0) {
-          document.getElementById("sentaku1").disabled = false;
-          document.getElementById("sentaku2").disabled = false;
-          document.getElementById("sentaku3").disabled = false;
-          document.getElementById("sentaku4").disabled = false;
-          getQuestion();
-          countDisplay = countDisplay + 1;
-        }
+      function nextQuestion() {
+        // 選択肢を比活性
+        document.getElementById("sentaku1").disabled = false;
+        document.getElementById("sentaku2").disabled = false;
+        document.getElementById("sentaku3").disabled = false;
+        document.getElementById("sentaku4").disabled = false;
+        // 問題集取得
+        getQuestion();        
       }
-      $('#btnsend').on('click', function () {
-        // 音声の再生
-        audio.load();
-        audio.play();
-        audio.loop = true;
-        audio.volume = 0.8
-        document.getElementById("startArea").style.display = "none";
-        document.getElementById("questionArea").style.display = "";
-        
-        // 問題データ取得
-        getQuestion();
-      });
-      //
+      
+      // A選択時
       $('#sentaku1').on('click', function () {
         getAnswer(this);
       });
+      // B選択時
       $('#sentaku2').on('click', function () {
         getAnswer(this);
       });
+      // C選択時
       $('#sentaku3').on('click', function () {
         getAnswer(this);
       });
+      // D選択時
       $('#sentaku4').on('click', function () {
         getAnswer(this);
       });
     
+      /////////////
+      // 回答取得
+      ///////////// 
       function getAnswer(sentakuId) {
         document.getElementById("sentaku1").disabled = true;
         document.getElementById("sentaku2").disabled = true;
         document.getElementById("sentaku3").disabled = true;
         document.getElementById("sentaku4").disabled = true;
+        $('.typ').css({'opacity': 1 });
+        
+        // 回答判定
         var answer = document.getElementById("answer").value;
-        $('.typ').css({
-          'opacity': 1
-        });
         var sentaku = $(sentakuId).val();
         if (sentaku == answer) {
           seikai();
         } else {
           huseikai();
         }
-        countDisplay = 0;
-        setTimeout(countUp, 2000);
+        // 次の問題へ
+        setTimeout(nextQuestion, 2000);
+        // カウントダウンSTOP
         clearInterval(stp);
       }
     }); 
   </script>
   <style>
-  
-  .btn { 
-     width:500px;
-  }
-  .sentaku1,.sentaku2, .sentaku3 ,.sentaku4 { 
-     margin-top: 20px;
-  }
-  .typ {
-    opacity: 0;
-   }
-  .typ span {
-    opacity: 0;
-  }
-  .test  {
-    text-align: left!important;
-  }
-
-  @media screen and (min-width: 0) and (max-width: 768px){
     .btn { 
-     width:300px;
-    }    
-  }
+      width:500px;
+    }
+    .sentaku1,.sentaku2, .sentaku3 ,.sentaku4 { 
+      margin-top: 20px;
+    }
+    .typ {
+      opacity: 0;
+    }
+    .typ span {
+      opacity: 0;
+    }
+
+    @media screen and (min-width: 0) and (max-width: 768px){
+      .btn { 
+      width:300px;
+      }    
+    }
   </style>
   </body>
 </html>
