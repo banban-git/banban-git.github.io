@@ -29,10 +29,9 @@
          
         <b>雑学　４択</b>
         
-        <section class="section-sub" style="border: 2px solid #000000">
+        <section class="section-sub" style="border: 2px solid #000000; height:250px;">
           <!--<div class="is-size-5" id="result"> -->
-          <p class="is-size-5 typ" id="result"></p>
-
+          <p class="is-size-5 typ" style="padding: 10px;" id="result"></p>
         </section>
         <BR>
 
@@ -82,7 +81,7 @@
           dataType: 'json'
         }).done(function (data) {
           var quizData = data.quiz.replace(/(\S)/g, '<span>$1</span>');
-          document.getElementById('result').innerHTML = quizData + "<BR><BR><BR><BR><BR><BR><BR>"
+          document.getElementById('result').innerHTML = quizData + "<BR><BR><BR><BR><BR><BR>"
           document.getElementById('sentaku1').value = data.sentaku1
           document.getElementById('sentaku1').innerHTML = "<span class=' has-text-weight-bold'>" + data.sentaku1 + "</span>"
           document.getElementById('sentaku2').value = data.sentaku2
@@ -110,7 +109,7 @@
     
       function seikai() {
         seikaiAudio.play();
-        document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='has-text-danger'>正解</span><BR><BR><BR><BR>"
+        document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='has-text-danger'>正解"
       }
     
       function huseikai() {
@@ -126,7 +125,7 @@
           sentakuArea = "D:";
         }
         huseikaiAudio.play();
-        document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='has-text-link'>不正解 （正解は、" + sentakuArea + answer + ")</span><BR><BR><BR><BR>"
+        document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='has-text-link'>不正解 <br>（正解は、" + sentakuArea + answer + ")"
       }
       //1000ミリ秒毎にcont_down関数を呼び出す
       function count_start() {
@@ -172,6 +171,7 @@
         // 問題データ取得
         getQuestion();
       });
+      //
       $('#sentaku1').on('click', function () {
         getAnswer(this);
       });
