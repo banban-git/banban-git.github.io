@@ -36,7 +36,7 @@
           <p class="is-size-5 typ" style="padding: 10px;" id="result"></p>
         </section>
         <BR>
-        <span id="countDownArea">残り時間</span>
+        <span id="countDownArea"></span>
         <section class="section-sub">
             <form name="form1">
               <span class="button is-danger sentaku1">
@@ -60,7 +60,7 @@
    
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script>
-    var count = 16;　 //カウントダウンの数字を格納する変数
+    var count = 15000;　 //カウントダウンの数字を格納する変数
     var min = 0;　 //残り時間「分」を格納する変数
     var sec = 0;　 //残り時間「秒」を格納する変数
     var stp = null; //setInerval・clearInervalを制御する変数
@@ -148,8 +148,8 @@
         document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='is-size-2 has-text-danger'>正解"
 
         // 得点計算
-        var eachMaxTokuten = (100 / quizeTotalMaxCount) * (count / 16) 
-        tokutenCount += parseFloat(eachMaxTokuten.toFixed(2));
+        var eachMaxTokuten = (100 / quizeTotalMaxCount) * (count / 15000) 
+        tokutenCount += Number(eachMaxTokuten.toFixed(2));
         document.getElementById('quizTokutenArea').innerHTML = "得点:" + tokutenCount;
       }
 
@@ -176,14 +176,14 @@
       // カウントスタート（1000ミリ秒毎にcont_down関数を呼び出す）
       /////////////////////////////////////////////////////////
       function count_start() {
-        count = 16
-        stp = setInterval(count_down, 1000);
+        count = 15000
+        stp = setInterval(count_down, 10);
       }
       /////////////////////////////////////////////////////////
       // カウントダウン処理
       /////////////////////////////////////////////////////////
       function count_down() {
-        if (count === 1) {
+        if (count == 0) {
           var display = document.getElementById("countDownArea");
           display.innerHTML = "TIME UP!!";
           
@@ -193,10 +193,10 @@
           setTimeout(nextQuestion, 2000);
           clearInterval(stp);
         } else {
-          count--;
-          sec = count % 60;
+          count = count - 10;
+          sec = count / 1000;
           var count_down = document.getElementById("countDownArea");
-          count_down.innerHTML = "残り時間" + sec + "秒"
+          count_down.innerHTML = "残り時間" + sec.toFixed(2) + "秒"
         }
       }
     
