@@ -149,7 +149,7 @@
 
         // 得点計算
         var eachMaxTokuten = (100 / quizeTotalMaxCount) * (count / 16) 
-        tokutenCount += Math.round(eachMaxTokuten * 100) / 100;
+        tokutenCount += parseFloat(eachMaxTokuten.toFixed(2));
         document.getElementById('quizTokutenArea').innerHTML = "得点:" + tokutenCount;
       }
 
