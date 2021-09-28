@@ -122,6 +122,7 @@
 
           // カウントダウンスタート 
           count_start();
+          buttonDiableSwitch(false)
 
         }).fail(function () {
           // 通信失敗時の処理を記述
@@ -159,7 +160,7 @@
       // カウントスタート（1000ミリ秒毎にcont_down関数を呼び出す）
       /////////////////////////////////////////////////////////
       function count_start() {
-        count = 16;
+        count = 16
         stp = setInterval(count_down, 1000);
       }
       /////////////////////////////////////////////////////////
@@ -169,6 +170,9 @@
         if (count === 1) {
           var display = document.getElementById("countDownArea");
           display.innerHTML = "TIME UP!!";
+          
+          // 選択肢を比活性
+          buttonDiableSwitch(true)
           huseikai()
           setTimeout(nextQuestion, 2000);
           clearInterval(stp);
@@ -181,11 +185,6 @@
       }
     
       function nextQuestion() {
-        // 選択肢を比活性
-        document.getElementById("sentaku1").disabled = false;
-        document.getElementById("sentaku2").disabled = false;
-        document.getElementById("sentaku3").disabled = false;
-        document.getElementById("sentaku4").disabled = false;
         // 問題集取得
         getQuestion();        
       }
@@ -207,14 +206,18 @@
         getAnswer(this);
       });
     
+      function buttonDiableSwitch(switchFlg) {
+        document.getElementById("sentaku1").disabled = switchFlg;
+        document.getElementById("sentaku2").disabled = switchFlg;
+        document.getElementById("sentaku3").disabled = switchFlg;
+        document.getElementById("sentaku4").disabled = switchFlg;
+      }
       /////////////
       // 回答取得
       ///////////// 
       function getAnswer(sentakuId) {
-        document.getElementById("sentaku1").disabled = true;
-        document.getElementById("sentaku2").disabled = true;
-        document.getElementById("sentaku3").disabled = true;
-        document.getElementById("sentaku4").disabled = true;
+        buttonDiableSwitch(true)
+        
         $('.typ').css({'opacity': 1 });
         
         // 回答判定
