@@ -67,6 +67,7 @@
     var quizCount = 0; //クイズ出題数
     var tokutenCount = 0; //クイズの得点
     var quizeTotalMaxCount = 20; //クイズ全出題数
+    var seikaisuu = 0; //正解数
 
     $(function () {
       // 音声ファイルを読み込み
@@ -132,7 +133,6 @@
           // クイズ数カウント
           quizCount = quizCount + 1
           document.getElementById('quizCountArea').innerHTML =  quizCount + "問目 /全" + quizeTotalMaxCount + "問";
-          console.log(quizCountArea)
 
         }).fail(function () {
           // 通信失敗時の処理を記述
@@ -147,9 +147,15 @@
         seikaiAudio.play();
         document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='is-size-2 has-text-danger'>正解"
 
+        // 正解数カウントアップ
+        seikaisuu += 1;
+
         // 得点計算
         var eachMaxTokuten = (100 / quizeTotalMaxCount) * (count / 15000) 
         tokutenCount += Number(eachMaxTokuten.toFixed(2));
+        if (String(tokutenCount).length > 5){
+          tokutenCount = Number(String(tokutenCount).slice(0, 5));
+        }
         document.getElementById('quizTokutenArea').innerHTML = "得点:" + tokutenCount;
       }
 
@@ -203,7 +209,7 @@
       function nextQuestion() {
         if (quizeTotalMaxCount == quizCount) {
            // ゲーム終了
-           document.getElementById('result').innerHTML = "<BR><BR><BR><span style='opacity: 1;' class='is-size-2 has-text-danger'>ゲーム終了"
+           document.getElementById('result').innerHTML = "<BR><BR><span style='opacity: 1;' class='is-size-2 has-text-danger'>ゲーム終了</span><BR><span style='opacity: 1;''>正解数 " + seikaisuu + ", 正解率: " +  (seikaisuu * 100/quizeTotalMaxCount) + "% </span>"
            return;
         }
         
