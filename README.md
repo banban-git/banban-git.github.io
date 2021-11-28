@@ -10,3 +10,5 @@
 |  5  |  退屈を紛らわす手段を提案する  |  https://banban-git.github.io/taikutsu.html  |  <img src="img/taikutsu.png">  |
 |  6  |  話した事を議事録としてページに記録する。<br> ※Google chrome（PC）のみ動作可 |  https://banban-git.github.io/web_speech.html  |  <img src="img/speech.png">  |
 |  7  |  トリビアの泉。へぇーボタンもあり |  https://banban-git.github.io/torivia.html  |  <img src="img/hee2.png">  |
+|  8  |  クイズゲーム（４択） |  ■アニメ <br> https://banban-git.github.io/quiz/anime_4taku.html　<br> ■スポーツ<br> https://banban-git.github.io/quiz/sports_4taku.html<br>■芸能<br>https://banban-git.github.io/quiz/geinou_4taku.html<br>■雑学<br>https://banban-git.github.io/quiz/zatsugaku_4taku.html<br>■文系<br>https://banban-git.github.io/quiz/bunkei_4taku.html<br>■社会<br>https://banban-git.github.io/quiz/syakai_4taku.html<br>■理系<br>https://banban-git.github.io/quiz/rikei_4taku.html
+ |    |
