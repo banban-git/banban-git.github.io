@@ -90,7 +90,7 @@ $(function () {
     seikaisuu += 1;
 
     // 得点計算
-    var haibun = count / 18000;
+    var haibun = count / 17500;
     if (haibun > 1) {
       haibun = 1.00;
     }
