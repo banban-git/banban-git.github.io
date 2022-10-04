@@ -10,7 +10,8 @@
       <div class="hero-body">
         <div class="container has-text-centered">
           <p class="title">ランダムで<br>猫の画像を取得します<br>
-            <a id="btnsend" class="button is-danger is-outlined is-large " style="margin-top:10px">画像取得</a>
+            <a id="btnsend" class="button is-danger is-outlined is-large " style="margin-top:10px">画像取得(手動:1枚)</a>
+            <a id="btnsendAuto" class="button is-danger is-outlined is-large " style="margin-top:10px">画像取得(自動:30枚)</a>
             <div id="result" />
           </p>
         </div>
@@ -19,10 +20,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script>
     $(function() {
+      let timerId = null;
+      let counter = 0;
       $('#btnsend').on('click', function(){
+        getCatImage(false)
+      })
+      $('#btnsendAuto').on('click', function(){
+        getCatImage(true)
+        timerId = setInterval(function(){getCatImage(true);}, 6500)
+      })
+      function getCatImage(isAuto) {
+        if (++counter > 30){ 
+         clearInterval(timerId)
+        }
         $('#result').text('');
-        $("#btnsend").addClass("is-loading");
-        
+        if (isAuto) {
+          $("#btnsendAuto").addClass("is-loading");
+        } else {
+          $("#btnsend").addClass("is-loading");
+        }
         // Ajax通信を開始
         $.ajax({
           url: 'https://aws.random.cat/meow',
@@ -39,13 +55,17 @@
           var content_area = document.getElementById("result");
           content_area.appendChild(img_element);
           // Loading解除
-          $("#btnsend").removeClass("is-loading");
+          if (isAuto) {
+            $("#btnsendAuto").removeClass("is-loading");
+          } else {
+            $("#btnsend").removeClass("is-loading");
+          }
         })
         .fail(function() {
-            // 通信失敗時の処理を記述
-            alert("通信エラー")
+          // 通信失敗時の処理を記述
+          alert("通信エラー")
         });
-      })
+      }
     });
     </script>
   </body>
