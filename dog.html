@@ -10,8 +10,8 @@
       <div class="hero-body">
         <div class="container has-text-centered">
           <p class="title">ランダムで<br>犬の画像を取得します<br>
-            <a id="btnsend" class="button is-danger is-outlined is-large " style="margin-top:10px">画像取得(手動:1枚)</a>
-            <a id="btnsendAuto" class="button is-danger is-outlined is-large " style="margin-top:10px">画像取得(自動:30枚)</a>
+            <a id="btnsend" class="button is-danger is-outlined is-large " style="margin-top:10px">手動:1枚</a>
+            <a id="btnsendAuto" class="button is-danger is-outlined is-large " style="margin-top:10px">自動:30枚</a>
             <div id="result" />
           </p>
         </div>
@@ -23,9 +23,11 @@
       let timerId = null;
       let counter = 0;
       $('#btnsend').on('click', function(){
+        counter = 0;
         getDogImage(false)
       })
       $('#btnsendAuto').on('click', function(){
+        counter = 0;
         getDogImage(true)
         timerId = setInterval(function(){getDogImage(true);}, 6500)
       })
