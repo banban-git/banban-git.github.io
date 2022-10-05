@@ -24,10 +24,12 @@
       let counter = 0;
       $('#btnsend').on('click', function(){
         counter = 0;
+        clearInterval(timerId)
         getDogImage(false)
       })
       $('#btnsendAuto').on('click', function(){
         counter = 0;
+        clearInterval(timerId)
         getDogImage(true)
         timerId = setInterval(function(){getDogImage(true);}, 6500)
       })
