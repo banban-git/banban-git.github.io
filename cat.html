@@ -45,14 +45,14 @@
         }
         // Ajax通信を開始
         $.ajax({
-          url: 'https://aws.random.cat/meow',
+          url: 'https://api.thecatapi.com/v1/images/search',
           type: 'GET',
           dataType: 'json'
         })
         .done(function(data) {
           var img_element = document.createElement('img');
           // 画像パス
-          img_element.src = data.file;
+          img_element.src = data[0].url;
           // 代替テキスト 
           img_element.alt = '猫画像'; 
           // 指定した要素にimg要素を挿入
