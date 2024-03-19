@@ -48,14 +48,15 @@
         // Ajax通信を開始
         $.ajax({
           // url: 'https://random.dog/woof.json',
-          url: 'https://random.dog/woof.json',
+          url: 'https://dog.ceo/api/breeds/image/random',
           type: 'GET',
           dataType: 'json'
         })
         .done(function(data) {
-          console.log(data.url)
+          //var imageUrl = data.url
+          var imageUrl = data.message
           // 動画別判定
-          if(data.url.split('.').pop() == "mp4"){
+          if(imageUrl.split('.').pop() == "mp4"){
             var img_element = document.createElement('video');
             img_element.autoplay = true
             img_element.loop = true
@@ -66,7 +67,7 @@
             // 代替テキスト 
             img_element.alt = '犬画像'; 
           }
-          img_element.src = data.url;
+          img_element.src = imageUrl;
 
           // 指定した要素にimg要素を挿入
           var content_area = document.getElementById("result");
