@@ -1,0 +1,10 @@
+img {
+    transition: all 0.3s ease-in-out; /* アニメーションの速度とイージングを設定 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 8); /* 軽い影をつける */
+    border-radius: 10px; /* 角を丸くする */
+  }
+  
+img:hover {
+    transform: translateY(-5px); /* ホバー時に画像を少し上に移動 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 2); /* ホバー時に影を強調 */
+}
